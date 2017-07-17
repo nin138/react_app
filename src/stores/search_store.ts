@@ -12,6 +12,7 @@ class SearchStoreState {
 export class SearchTextStore extends ReduceStore<SearchStoreState, ChangeSearchTextAction> {
   constructor(dispatcher: Dispatcher<ChangeSearchTextAction>) {
     super(dispatcher);
+    this.addListener(() => console.log("change"))
   }
 
   getInitialState(): SearchStoreState {
@@ -27,6 +28,7 @@ export class SearchTextStore extends ReduceStore<SearchStoreState, ChangeSearchT
       default : return state;
     }
   }
+
 }
 
 const instance = new SearchTextStore(dispatcher);
