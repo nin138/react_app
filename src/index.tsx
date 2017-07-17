@@ -1,4 +1,5 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import SearchContainer from "./container/search_container";
 
-ReactDOM.render(<div>hello world!</div>, document.getElementById('app'));
+ReactDOM.render(<SearchContainer />, document.getElementById('app'));
