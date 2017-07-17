@@ -1,24 +1,31 @@
-class Repository {
+import Owner from "./owner";
+export default class Repository {
   id: number;
   name: string;
   full_name: string;
-  owner: Owner;
-  private_: boolean;
-  html_url: string;
+  language: string;
   description: string;
-  fork: boolean;
+  owner: Owner;
   url: string;
   created_at: string;
   updated_at: string;
-  pushed_at: string;
-  homepage: string;
-  size: number;
+  forks_count: number;
   stargazers_count: number;
   watchers_count: number;
-  language: string;
-  forks_count: number;
-  open_issues_count: number;
-  master_branch: string;
-  default_branch: string;
-  score: number;
+  constructor(obj?: any) {
+    if(obj) {
+      this.id = obj.id;
+      this.name = obj.name;
+      this.full_name = obj.full_name;
+      this.language = obj.language;
+      this.description = obj.description;
+      this.owner = new Owner(obj.owner);
+      this.url = obj.url;
+      this.created_at = obj.created_at;
+      this.updated_at = obj.updated_at;
+      this.forks_count = obj.forks_count;
+      this.stargazers_count = obj.stargazers_count;
+      this.watchers_count = obj.watchers_count;
+    }
+  }
 }

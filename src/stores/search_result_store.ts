@@ -4,6 +4,7 @@ import dispatcher from '../dispatcher/dispathcher'
 import { Dispatcher } from 'flux';
 import {ActionTypes} from "../actions/action_types";
 import {Action} from "../actions/actions";
+import Repository from "../model/repository";
 
 
 
