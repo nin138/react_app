@@ -3,9 +3,7 @@ import ChangeSearchTextAction from "../actions/change_search_text";
 import dispatcher from '../dispatcher/dispathcher'
 import {Dispatcher} from 'flux';
 import {ActionTypes} from "../actions/action_types";
-import Actions, {Action} from "../actions/actions";
-import {GitHubApi} from "../module/github_apis";
-import Sort = GitHubApi.Sort;
+import {Action} from "../actions/actions";
 
 class SearchStoreState {
   constructor(public text: string) {  }
@@ -13,11 +11,10 @@ class SearchStoreState {
 export class SearchTextStore extends ReduceStore<SearchStoreState, Action> {
   constructor(dispatcher: Dispatcher<Action>) {
     super(dispatcher);
-    this.addListener(() => Actions.searchRepositories(this.getState().text, "", Sort.match, false))
   }
 
   getInitialState(): SearchStoreState {
-    return new SearchStoreState('');
+    return new SearchStoreState("");
   }
 
   reduce(state: SearchStoreState, action: Action): SearchStoreState {

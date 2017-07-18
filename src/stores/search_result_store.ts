@@ -28,9 +28,9 @@ export class SearchResultStore extends ReduceStore<SearchResultStoreState, Actio
     switch (action.type) {
       case ActionTypes.search_success:
         return new SearchResultStoreState((action as SearchSuccessAction).payload);
-      default : return state;
       case ActionTypes.search_error:
-        return new SearchResultStoreState(undefined, (action as SearchErrorAction).payload )
+        return new SearchResultStoreState(undefined, (action as SearchErrorAction).payload);
+      default : return state;
     }
   }
 
