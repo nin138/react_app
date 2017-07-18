@@ -5,7 +5,7 @@ import {Dispatcher} from 'flux';
 import {ActionTypes} from "../actions/action_types";
 import {Action} from "../actions/actions";
 
-class SearchStoreState {
+export class SearchStoreState {
   constructor(public text: string) {  }
 }
 export class SearchTextStore extends ReduceStore<SearchStoreState, Action> {

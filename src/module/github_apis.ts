@@ -39,7 +39,7 @@ export module GitHubApi {
                   ret.repositories.push(new Repository(i))
                 });
                 success(ret);
-              } else error(res.status);
+              } else error(res.status);//TODO set error code
             }
         )
       } else error(ResponseCodes.NO_QUERY);

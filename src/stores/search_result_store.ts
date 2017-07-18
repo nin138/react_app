@@ -9,7 +9,7 @@ import SearchErrorAction from "../actions/search_error";
 
 
 
-class SearchResultStoreState {
+export class SearchResultStoreState {
   constructor(
       public response: GitHubApi.SearchResponse = new GitHubApi.SearchResponse(),
       public errorcode: number = 0) {
