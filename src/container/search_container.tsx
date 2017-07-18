@@ -2,13 +2,14 @@ import * as React from "react"
 import SearchTextStore from "../stores/search_store";
 import { Container, ReduceStore } from 'flux/utils'
 import Action from "../actions/actions";
+import SearchResultStore from "../stores/search_result_store";
 
 class Search extends React.Component<any, any> {
   static getStores(): Array<ReduceStore<any,any>> {
-    return [SearchTextStore]
+    return [SearchTextStore || SearchResultStore]
   }
   static calculateState() {
-    return { text: SearchTextStore.getState() }
+    return { text: SearchTextStore.getState(), data: SearchResultStore.getState() }
   }
   handleSearchTextChange(e: React.FormEvent<HTMLInputElement>) {
     Action.changeSearchText(e.currentTarget.value)

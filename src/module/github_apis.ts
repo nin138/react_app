@@ -8,15 +8,15 @@ export module GitHubApi {
   }
 
   export class SearchResponse {
-    constructor(public total_count: number,
-                public incomplete_results: boolean,
-                public repositories: Array<Repository>
+    constructor(public total_count: number = 0,
+                public incomplete_results: boolean = false,
+                public repositories: Array<Repository> = []
     ) {}
   }
 
   export class Search {
     static readonly URL = BASE_URL + "search/repositories?";
-    private word_: string;
+    private word_: string = "";
     private lang_: string;
     private sort_: Sort = Sort.match;
     private isDesc = false;
@@ -41,10 +41,11 @@ export module GitHubApi {
     }
     private getQuery(): string {
       let query = Search.URL;
-      if(this.word_) {
+      const word = `${this.word_.trim()} ${(this.lang_ != null)? "language:" + this.lang_.trim() : ""}`;
+      if(word) {
         query += "q=";
-        const words = `${this.word_} ${(this.lang_)? "language:" + this.lang_ : ""}`.trim().split(" ");
-        words.forEach(v => query+= v + "+");
+        const words = word.trim().split(" ");
+        words.forEach(v => query += v + "+");
         if(query.substr(query.length - 1) == '+') query = query.substring(0, query.length - 1);
         if(this.sort_ != Sort.match) query += "&sort=" + Sort[this.sort_];
         if(this.isDesc) query += "&order=desc";
