@@ -34,6 +34,10 @@ export class SearchTextStore extends ReduceStore<SearchStoreState, Action> {
         return SearchStoreState.change(state, "text", action.payload);
       case ActionTypes.search_lang_change:
         return SearchStoreState.change(state, "lang", action.payload);
+      case ActionTypes.search_sort_change:
+        return SearchStoreState.change(state, "sort", action.payload);
+      case ActionTypes.search_order_change:
+        return SearchStoreState.change(state, "isDesc", action.payload);
       default : return state;
     }
   }

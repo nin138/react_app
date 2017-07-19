@@ -11,13 +11,17 @@ interface Props {
 
 export default class SearchInputArea extends React.Component<Props> {
   render() {
-    const options: ReactNode = Object.keys(GitHubApi.Sort).filter(v => {return (isNaN(v as any))}).map((v) => { return(<option key={v} value={v}>{v}</option>) });
+    const options: ReactNode = Object.keys(GitHubApi.Sort).filter(v => {return (isNaN(v as any))}).map((v, i) => { return(<option key={v} value={i}>{v}</option>) });
     return(
         <div>
           <input type="text" onChange={(e) => this.handleTextChange(e)} />
           <input type="text" onChange={(e) => this.handleLangChange(e)} />
-          <select value={GitHubApi.Sort[this.props.inputs.sort]} onChange={(e) => this.handleSortChange(e)}>
+          <select onChange={(e) => this.handleSortChange(e)}>
             {options}
+          </select>
+          <select onChange={(e) => this.handleOrderChange(e)}>
+            <option value={"false"}>昇順</option>
+            <option value={"true"}>降順</option>
           </select>
         </div>
     )
@@ -26,9 +30,12 @@ export default class SearchInputArea extends React.Component<Props> {
     Actions.changeSearchText(e.currentTarget.value)
   }
   handleLangChange(e: React.FormEvent<HTMLInputElement>) {
-    Actions.changeLangText(e.currentTarget.value)
+    Actions.changeSearchLang(e.currentTarget.value)
   }
   handleSortChange(e: React.FormEvent<HTMLSelectElement>) {
-    e.currentTarget.value
+    Actions.changeSearchSort(+e.currentTarget.value)
+  }
+  handleOrderChange(e: React.FormEvent<HTMLSelectElement>) {
+    Actions.changeSearchOrder(e.currentTarget.value == "true")
   }
 }

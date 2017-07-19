@@ -6,6 +6,8 @@ import SearchTextStore from "../stores/search_store";
 import SearchSuccessAction from "./search_success";
 import SearchErrorAction from "./search_error";
 import ChangeSearchLangAction from "./change_search_lang";
+import ChangeSearchSortAction from "./change_search_sort";
+import ChangeSearchOrderAction from "./change_search_order";
 
 export interface Action {
   type: ActionTypes
@@ -17,8 +19,16 @@ const Actions = {
     dispatch(new ChangeSearchTextAction(text));
     Actions.searchRepositories();
   },
-  changeLangText: (lang: string) => {
+  changeSearchLang: (lang: string) => {
     dispatch(new ChangeSearchLangAction(lang));
+    Actions.searchRepositories();
+  },
+  changeSearchSort: (sort: GitHubApi.Sort) => {
+    dispatch(new ChangeSearchSortAction(sort));
+    Actions.searchRepositories();
+  },
+  changeSearchOrder: (isDesc: boolean) => {
+    dispatch(new ChangeSearchOrderAction(isDesc));
     Actions.searchRepositories();
   },
   searchRepositories: () => {

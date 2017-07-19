@@ -30,6 +30,7 @@ export module GitHubApi {
 
     get(success: (v: SearchResponse) => void, error: (status: number) => void) {
       if(this.word_ || this.lang_) {
+        console.log(`${Search.URL}q=${this.getQuery()}`);
         new Http().url(`${Search.URL}q=${this.getQuery()}`).get().then(
             res => {
               if (res.status >= 200 && res.status < 300) {
