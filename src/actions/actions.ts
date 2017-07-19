@@ -11,6 +11,10 @@ import ChangeSearchOrderAction from "./change_search_order";
 import ApiKeyStore from "../stores/api_key_store";
 import GetWatchingRepositoriesAction from "./get_watching_reopsitories";
 import GetWatchingErrorAction from "./get_watching_error";
+import WatchRepositoryErrorAction from "./watch_repository_error";
+import WatchRepositoryAction from "./watch_repository";
+import UnwatchRepositoryAction from "./unwatch_repository";
+import UnwatchRepositoryErrorAction from "./unwatch_repository_error";
 
 export interface Action {
   type: ActionTypes
@@ -50,8 +54,20 @@ const Actions = {
   getWatchingRepositories: () => {
     const keys = ApiKeyStore.getState();
     new GitHubApi.User.Watching().key(keys.key).userName(keys.userName).get(
-        res => { dispatch(new GetWatchingRepositoriesAction(res)) },
-        err => { dispatch(new GetWatchingErrorAction(err)) }
+        res => dispatch(new GetWatchingRepositoriesAction(res)),
+        err => dispatch(new GetWatchingErrorAction(err))
+    )
+  },
+  watchRepository: (owner: string, repo: string) => {
+    new GitHubApi.Repo.Watch().key(ApiKeyStore.getState().key).owner(owner).repo(repo).subscribe(
+        res => dispatch(new WatchRepositoryAction(res)),
+        err => dispatch(new WatchRepositoryErrorAction(err))
+    )
+  },
+  unwatchRepository: (owner: string, repo: string) => {
+    new GitHubApi.Repo.Watch().key(ApiKeyStore.getState().key).owner(owner).repo(repo).subscribe(
+        res => dispatch(new UnwatchRepositoryAction(res)),
+        err => dispatch(new UnwatchRepositoryErrorAction(err))
     )
   },
 };

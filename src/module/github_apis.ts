@@ -85,4 +85,37 @@ export module GitHubApi {
       }
     }
   }
+  export module Repo {
+    export class Watch {
+      private static readonly URL = BASE_URL + "repos/";
+      private key_: string;
+      private owner_: string;
+      private repo_: string;
+      key(key: string) { this.key_ = key; return this; }
+      owner(owner: string) { this.owner_ = owner; return this; }
+      repo(repo: string) { this.repo_ = repo; return this; }
+      subscribe(success: (full_name: string) => void, err: (code: ErrorCodes) => void) { this.request(success, err, "PUT", { subscribed: true }) }
+      ignore(success: (full_name: string) => void, err: (code: ErrorCodes) => void) { this.request(success, err, "PUT", { ignored: false }) }
+      unwatch(success: (full_name: string) => void, err: (code: ErrorCodes) => void) { this.request(success, err, "DELETE") }
+      private request(success: (full_name: string) => void, err: (code: ErrorCodes) => void, method: string, data?: object) {
+        if(!this.key_) err(ErrorCodes.API_KEY_REQUIRED);
+        else if(!this.owner_ || !this.repo_) err(ErrorCodes.NO_QUERY);
+        else {
+          new Http()
+              .url(`${Watch.URL}/${this.owner_}/${this.repo_}/subscription`)
+              .data(Object.assign({ access_token: this.key_ }, data))
+              .request(method)
+              .then(
+                  res => {
+                    if (res.status >= 200 && res.status < 300) {
+                      success(`${this.owner_}/${this.repo_}`)
+                    } else err(res.status);//TODO set error code
+                  }
+              )
+        }
+      }
+    // /repos/:owner/:repo/subscription
+    }
+  }
+
 }

@@ -8,4 +8,8 @@ export enum ActionTypes {
   search_error,
   get_watching_repositories,
   get_watching_error,
+  watch_repository,
+  watch_repository_error,
+  unwatch_repository,
+  unwatch_repository_error,
 }

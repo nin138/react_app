@@ -23,7 +23,7 @@ export default class Http {
   data(data: any) { this.data_ = data; return this }
   get(): Promise<Response> { return this.request("GET"); }
   post(): Promise<Response> { return this.request("POST"); }
-  private request(method: string): Promise<Response> {
+  request(method: string): Promise<Response> {
     const req = new RequestOps(method, this.url_, this.data_, this.headers);
     return popsicle.request(req)._promise
   }
