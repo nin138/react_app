@@ -53,7 +53,7 @@ export module GitHubApi {
         words.forEach(v => query += v + "+");
         if(query.substr(query.length - 1) == '+') query = query.substring(0, query.length - 1);
         if(this.sort_ != Sort.match) query += "&sort=" + Sort[this.sort_];
-        if(this.isDesc) query += "&order=desc";
+        if(!this.isDesc) query += "&order=asc";
         return query;
       }
       return "";

@@ -20,8 +20,8 @@ export default class SearchInputArea extends React.Component<Props> {
             {options}
           </select>
           <select onChange={(e) => this.handleOrderChange(e)}>
-            <option value={"false"}>昇順</option>
             <option value={"true"}>降順</option>
+            <option value={"false"}>昇順</option>
           </select>
         </div>
     )

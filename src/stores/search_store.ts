@@ -16,7 +16,7 @@ export class SearchStoreState {
       public text: string = "",
       public lang: string = "",
       public sort: GitHubApi.Sort = GitHubApi.Sort.match,
-      public isDesc: boolean = false
+      public isDesc: boolean = true
   ) {  }
 }
 export class SearchTextStore extends ReduceStore<SearchStoreState, Action> {
