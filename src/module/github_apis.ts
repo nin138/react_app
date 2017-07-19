@@ -65,15 +65,12 @@ export module GitHubApi {
 
   export module User {
     export class Watching{
-      private static readonly URL = BASE_URL + "users";
-      private userName_: string;
+      private static readonly URL = BASE_URL + "user/";
       private key_: string;
-      userName(userName: string) { this.userName_ = userName; return this; }
       key(key: string) { this.key_ = key; return this; }
-
       get(success: (res: Array<Repository>) => void, error: (code: ErrorCodes) => void) {
-        if (this.userName_ || this.key_) {
-          new Http().url(`${Watching.URL}/${this.userName_}/subscriptions?access_token=${this.key_}`).get().then(
+        if (this.key_) {
+          new Http().url(`${Watching.URL}subscriptions?access_token=${this.key_}`).get().then(
               res => {
                 if (res.status >= 200 && res.status < 300) {
                   const r: Array<any> = JSON.parse(res.body);
@@ -102,8 +99,8 @@ export module GitHubApi {
         else if(!this.owner_ || !this.repo_) err(ErrorCodes.NO_QUERY);
         else {
           new Http()
-              .url(`${Watch.URL}/${this.owner_}/${this.repo_}/subscription`)
-              .data(Object.assign({ access_token: this.key_ }, data))
+              .url(`${Watch.URL}${this.owner_}/${this.repo_}/subscription?access_token=${this.key_}`)
+              .data(data)
               .request(method)
               .then(
                   res => {
@@ -114,7 +111,6 @@ export module GitHubApi {
               )
         }
       }
-    // /repos/:owner/:repo/subscription
     }
   }
 

@@ -17,7 +17,8 @@ export default class Http {
   private url_: string;
   private data_: any;
   private headers = {
-    'Content-Type': "application/x-www-form-urlencoded"
+    'Content-Type': "application/x-www-form-urlencoded",
+    Accept: "application/vnd.github.v3+json"
   };
   url(url: string) { this.url_ = url; return this }
   data(data: any) { this.data_ = data; return this }

@@ -12,6 +12,7 @@ export default class Repository {
   forks_count: number;
   stargazers_count: number;
   watchers_count: number;
+  is_watching: boolean = false;
   constructor(obj?: any) {
     if(obj) {
       this.id = obj.id;

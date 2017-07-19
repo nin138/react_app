@@ -52,8 +52,7 @@ const Actions = {
     );
   },
   getWatchingRepositories: () => {
-    const keys = ApiKeyStore.getState();
-    new GitHubApi.User.Watching().key(keys.key).userName(keys.userName).get(
+    new GitHubApi.User.Watching().key(ApiKeyStore.getState().key).get(
         res => dispatch(new GetWatchingRepositoriesAction(res)),
         err => dispatch(new GetWatchingErrorAction(err))
     )
@@ -65,7 +64,7 @@ const Actions = {
     )
   },
   unwatchRepository: (owner: string, repo: string) => {
-    new GitHubApi.Repo.Watch().key(ApiKeyStore.getState().key).owner(owner).repo(repo).subscribe(
+    new GitHubApi.Repo.Watch().key(ApiKeyStore.getState().key).owner(owner).repo(repo).unwatch(
         res => dispatch(new UnwatchRepositoryAction(res)),
         err => dispatch(new UnwatchRepositoryErrorAction(err))
     )
