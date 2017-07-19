@@ -1,7 +1,7 @@
 .idea
 dist
 repository.txt
-
+api_key.*
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
 # Logs

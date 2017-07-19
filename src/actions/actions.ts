@@ -8,6 +8,7 @@ import SearchErrorAction from "./search_error";
 import ChangeSearchLangAction from "./change_search_lang";
 import ChangeSearchSortAction from "./change_search_sort";
 import ChangeSearchOrderAction from "./change_search_order";
+import ApiKeyStore from "../stores/api_key_store";
 
 export interface Action {
   type: ActionTypes
@@ -33,10 +34,16 @@ const Actions = {
   },
   searchRepositories: () => {
     const state = SearchTextStore.getState();
-    new GitHubApi.Search().word(state.text).lang(state.lang).sort(state.sort).desk(state.isDesc).get(
-        res => dispatch(new SearchSuccessAction(res)),
-        err => dispatch(new SearchErrorAction(err))
-    )
+    new GitHubApi.Search()
+        .word(state.text)
+        .lang(state.lang)
+        .sort(state.sort)
+        .desk(state.isDesc)
+        .apiKey(ApiKeyStore.getState().key)
+        .get(
+          res => dispatch(new SearchSuccessAction(res)),
+          err => dispatch(new SearchErrorAction(err))
+    );
   },
 };
 export default Actions

@@ -19,6 +19,7 @@ export module GitHubApi {
 
   export class Search {
     static readonly URL = BASE_URL + "search/repositories?";
+    private api_key: string;
     private word_: string = "";
     private lang_: string = "";
     private sort_: Sort = Sort.match;
@@ -27,6 +28,7 @@ export module GitHubApi {
     lang(v: string) { this.lang_ = v; return this }
     sort(v: Sort) { this.sort_ = v; return this }
     desk(isDesc: boolean) { this.isDesc = isDesc; return this }
+    apiKey(key: string) { this.api_key = key; return this }
 
     get(success: (v: SearchResponse) => void, error: (status: number) => void) {
       if(this.word_ || this.lang_) {
@@ -54,6 +56,7 @@ export module GitHubApi {
         if(query.substr(query.length - 1) == '+') query = query.substring(0, query.length - 1);
         if(this.sort_ != Sort.match) query += "&sort=" + Sort[this.sort_];
         if(!this.isDesc) query += "&order=asc";
+        if(this.api_key) query += `&access_token=${this.api_key}`;
         return query;
       }
       return "";
