@@ -2,12 +2,12 @@ import {ReduceStore} from 'flux/utils'
 import dispatcher from '../dispatcher/dispathcher'
 import {Dispatcher} from 'flux';
 import {Action} from "../actions/actions";
-import API_KEY from "../api_key";
+import {API_KEY, USER_NAME} from "../api_key";
 
 
 
 export class ApiKeyStoreState {
-  constructor(public isOk = false, public key: string = "") {
+  constructor(public userName: string = "", public key: string = "") {
   }
 }
 export class ApiKeyStore extends ReduceStore<ApiKeyStoreState, Action> {
@@ -16,7 +16,7 @@ export class ApiKeyStore extends ReduceStore<ApiKeyStoreState, Action> {
   }
 
   getInitialState(): ApiKeyStoreState {
-    return new ApiKeyStoreState(true, API_KEY);
+    return new ApiKeyStoreState(USER_NAME, API_KEY);
   }
 
   reduce(state: ApiKeyStoreState, action: Action): ApiKeyStoreState {

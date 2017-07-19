@@ -18,12 +18,11 @@ class Search extends React.Component<{}, State> {
   }
   render() {
     return(
-        <div>
+        <section>
           <p>{this.state.searchText.text}</p>
-
           <SearchInputArea inputs={this.state.searchText} />
           <SearchResultArea result={this.state.searchResult} />
-        </div>
+        </section>
     )
   }
 }
