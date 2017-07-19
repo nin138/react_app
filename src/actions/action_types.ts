@@ -6,4 +6,6 @@ export enum ActionTypes {
   search_repositories,
   search_success,
   search_error,
+  get_watching_repositories,
+  get_watching_error,
 }

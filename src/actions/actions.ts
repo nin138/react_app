@@ -9,6 +9,8 @@ import ChangeSearchLangAction from "./change_search_lang";
 import ChangeSearchSortAction from "./change_search_sort";
 import ChangeSearchOrderAction from "./change_search_order";
 import ApiKeyStore from "../stores/api_key_store";
+import GetWatchingRepositoriesAction from "./get_watching_reopsitories";
+import GetWatchingErrorAction from "./get_watching_error";
 
 export interface Action {
   type: ActionTypes
@@ -44,6 +46,13 @@ const Actions = {
           res => dispatch(new SearchSuccessAction(res)),
           err => dispatch(new SearchErrorAction(err))
     );
+  },
+  getWatchingRepositories: () => {
+    const keys = ApiKeyStore.getState();
+    new GitHubApi.User.Watching().key(keys.key).userName(keys.userName).get(
+        res => { dispatch(new GetWatchingRepositoriesAction(res)) },
+        err => { dispatch(new GetWatchingErrorAction(err)) }
+    )
   },
 };
 export default Actions
