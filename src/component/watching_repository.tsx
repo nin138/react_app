@@ -15,7 +15,7 @@ export default class WatchingRepositoryComponent extends React.Component<Props> 
         <div>
           <p>{this.props.repo.full_name}</p>
           <p>{this.props.repo.description}</p>
-          <p>{this.props.repo.updated_at}</p>
+          <p>{this.props.repo.updated_at.substring(0, 10).replace(/-/g, '/')}</p>
           <p>{this.props.repo.language}</p>
           <p>⭐️{this.props.repo.stargazers_count}</p>
           <br/>

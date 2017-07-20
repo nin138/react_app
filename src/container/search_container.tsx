@@ -18,9 +18,11 @@ class Search extends React.Component<{}, State> {
   }
   render() {
     return(
-        <section>
-          <p>{this.state.searchText.text}</p>
-          <SearchInputArea inputs={this.state.searchText} />
+        <section className="l-search-container">
+          <div className="l-search-container__header">
+            <h1 className="l-search-container__header__h1">Search Repositories</h1>
+            <SearchInputArea inputs={this.state.searchText} />
+          </div>
           <SearchResultArea result={this.state.searchResult} />
         </section>
     )

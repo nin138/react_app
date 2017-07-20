@@ -11,7 +11,7 @@ export default class SearchResultArea extends React.Component<Props> {
   render() {
     const list = this.props.result.response.repositories.map((r: Repository) => { return(<RepositoryComponent key={r.id} repo={r} />) });
     return(
-        <div>
+        <div className="l-search-container__body">
           { list }
         </div>
     )

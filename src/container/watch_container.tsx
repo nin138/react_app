@@ -18,8 +18,8 @@ class Watch extends React.Component<{}, State> {
   }
   render() {
     return(
-        <section>
-          <h1>watch</h1>
+        <section className="l-watch-container">
+          <h1 className="l-watch-container__h1">Watching Repositories</h1>
           <WatchingReposAreaComponent repos={this.state.watching.repos} />
         </section>
     )

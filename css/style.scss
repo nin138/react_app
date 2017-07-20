@@ -1,6 +1,13 @@
 //foundation
 @import "foundation/reset";
 @import "foundation/variable";
-
+body {
+  background-color: #eee;
+}
 //layout
+@import "layout/header";
 @import "layout/main";
+
+//component
+@import "component/repository";
+@import "component/search_input_area";

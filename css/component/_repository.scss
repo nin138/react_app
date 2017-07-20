@@ -1,0 +1,45 @@
+.c-repository {
+  margin: .5rem;
+  padding:.5rem;
+  background-color: #fff;
+  box-shadow: 2px 2px 3px #ccc;
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    &__title {
+      font-size: 1.2rem;
+    }
+  }
+  &__updated {
+    font-size: .8rem;
+    margin-left: .8rem;
+    color: #777;
+  }
+  &__body {
+    display: flex;
+    align-items: flex-start;
+    &__lang {
+      flex: 0 1;
+      border-radius: 3px;
+      display: inline-block;
+      padding: .2rem;
+      border: 1px solid;
+      margin: .5rem;
+    }
+    &__description {
+      flex: 1;
+    }
+    &__btn {
+      &:hover {
+        cursor: pointer;
+
+      }
+      &--watch  {
+
+      }
+      &--unwatch {
+
+      }
+    }
+  }
+}

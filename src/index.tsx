@@ -5,9 +5,14 @@ import WatchContainer from "./container/watch_container";
 import Actions from "./actions/actions";
 
 ReactDOM.render(
-    <div id="main">
-      <SearchContainer />
-      <WatchContainer />
+    <div>
+      <header className="header">
+        <h1 className="header__h1">Search and Watch Repositories on GitHub</h1>
+      </header>
+      <div id="main">
+        <SearchContainer />
+        <WatchContainer />
+      </div>
     </div>,
     document.getElementById('app'));
 

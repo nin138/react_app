@@ -9,17 +9,23 @@ interface Props {
 export default class RepositoryComponent extends React.Component<Props> {
   render() {
     const watchButton = this.props.repo.is_watching ?
-        (<button onClick={() => Actions.unwatchRepository(this.props.repo)}>unwatch</button>) :
-        (<button onClick={() => Actions.watchRepository(this.props.repo)}>watch</button>);
-    return(
-        <div>
-          <p>{this.props.repo.full_name}</p>
-          <p>{this.props.repo.description}</p>
-          <p>{this.props.repo.updated_at}</p>
-          <p>{this.props.repo.language}</p>
-          <p>⭐️{this.props.repo.stargazers_count}</p>
-          <br/>
-          {watchButton}
+        (<button className="c-repository__body__btn c-repository__btn--watch" onClick={() => Actions.unwatchRepository(this.props.repo)}>
+          unwatch</button>) :
+        (<button className="c-repository__body__btn c-repository__body__btn--unwatch" onClick={() => Actions.watchRepository(this.props.repo)}>
+          watch</button>);
+    const lang = this.props.repo.language ? (<div className="c-repository__body__lang">{this.props.repo.language}</div>) : "";
+    return (
+        <div className="c-repository">
+          <div className="c-repository__head">
+            <h2 className="c-repository__head__title">{this.props.repo.full_name}</h2>
+            <p className="c-repository__star">️⭐{this.props.repo.stargazers_count}</p>
+          </div>
+          <p className="c-repository__updated">{"updated at " + this.props.repo.updated_at.substring(0, 10).replace(/-/g, '/')}</p>
+          <div className="c-repository__body">
+            {lang}
+            <p className="c-repository__body__description">{this.props.repo.description}</p>
+            {watchButton}
+          </div>
         </div>
     )
   }

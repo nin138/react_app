@@ -1,0 +1,32 @@
+.c-search-input-area {
+  &__label {
+    display: inline-flex;
+    align-items: baseline;
+    padding-left: .5rem;
+    & > input {
+      flex: 1 0 0;
+      border: solid 1px #ccc;
+      border-radius: 3px;
+      z-index: 100;
+    }
+    & > span {
+      padding-right: .2rem;
+    }
+    & > * {
+      padding: .2rem;
+    }
+  }
+  &__keyword-label {
+    width: 100%;
+  }
+  &__wrap {
+    display: flex;
+    width: 100%;
+    margin: .5rem 0;
+    justify-content: space-between;
+    align-items: baseline;
+    &__lang-label {
+      flex: 2;
+    }
+  }
+}
