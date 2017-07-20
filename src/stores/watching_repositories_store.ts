@@ -4,10 +4,11 @@ import {Dispatcher} from 'flux';
 import {ActionTypes} from "../actions/action_types";
 import {Action} from "../actions/actions";
 import Repository from "../model/repository";
+import WatchRepositoryAction from "../actions/watch_repository";
 
 
 
-class WatchingRepositoriesState {
+export class WatchingRepositoriesState {
   constructor(public repos: Array<Repository> = []) {}
 }
 
@@ -23,13 +24,26 @@ export class WatchingRepositoriesStore extends ReduceStore<WatchingRepositoriesS
   reduce(state: WatchingRepositoriesState, action: Action): WatchingRepositoriesState {
     switch (action.type) {
       case ActionTypes.get_watching_repositories:
-        console.log(action.payload);
         return new WatchingRepositoriesState(action.payload);
       case ActionTypes.get_watching_error:
         //todo err
-          console.log("err on get watch :");
         console.log(action.payload);
         return new WatchingRepositoriesState();
+      case ActionTypes.watch_repository:
+        return new WatchingRepositoriesState((action as WatchRepositoryAction).payload.filter(v => {
+          let flag = false;
+          state.repos.forEach(old => { if(v.id == old.id) flag = true });
+          if(!flag) return v;
+        }).concat(state.repos));
+      case ActionTypes.watch_repository_error:
+        //todo err
+        return state;
+      case ActionTypes.unwatch_repository:
+        //todo
+        return state;
+      case ActionTypes.unwatch_repository_error:
+        //todo err
+        return state;
       default : return state;
     }
   }

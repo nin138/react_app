@@ -74,7 +74,7 @@ export module GitHubApi {
               res => {
                 if (res.status >= 200 && res.status < 300) {
                   const r: Array<any> = JSON.parse(res.body);
-                  success(r.map((v) => new Repository(v)));
+                  success(r.map((v) => new Repository(v, true)));
                 } else error(res.status);//TODO set error code
               }
           )
@@ -100,7 +100,7 @@ export module GitHubApi {
         else {
           new Http()
               .url(`${Watch.URL}${this.owner_}/${this.repo_}/subscription?access_token=${this.key_}`)
-              .data(data)
+              .data(JSON.stringify(data))
               .request(method)
               .then(
                   res => {

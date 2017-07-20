@@ -6,15 +6,36 @@ import {Action} from "../actions/actions";
 import {GitHubApi} from "../module/github_apis";
 import SearchSuccessAction from "../actions/search_success";
 import SearchErrorAction from "../actions/search_error";
+import Repository from "../model/repository";
+import WatchingRepositoriesStore from "./watching_repositories_store";
 
 
 
 export class SearchResultStoreState {
+  setIsWatchingAll(ids: Array<number>): SearchResultStoreState {
+    return new SearchResultStoreState(
+        new GitHubApi.SearchResponse(
+            this.response.total_count,
+            this.response.incomplete_results,
+            Repository.setIsWatchingAll(this.response.repositories, ids)),
+        this.errorCode
+    )
+  }
+  setWatching(ids: Array<number>, value: boolean): SearchResultStoreState {
+    return new SearchResultStoreState(
+        new GitHubApi.SearchResponse(
+            this.response.total_count,
+            this.response.incomplete_results,
+            Repository.setWatching(this.response.repositories, ids, value)
+        )
+    )
+  }
   constructor(
       public response: GitHubApi.SearchResponse = new GitHubApi.SearchResponse(),
-      public errorcode: number = 0) {
+      public errorCode: number = 0) {
   }
 }
+
 export class SearchResultStore extends ReduceStore<SearchResultStoreState, Action> {
   constructor(dispatcher: Dispatcher<Action>) {
     super(dispatcher);
@@ -27,13 +48,19 @@ export class SearchResultStore extends ReduceStore<SearchResultStoreState, Actio
   reduce(state: SearchResultStoreState, action: Action): SearchResultStoreState {
     switch (action.type) {
       case ActionTypes.search_success:
-        return new SearchResultStoreState((action as SearchSuccessAction).payload);
+        return new SearchResultStoreState((action as SearchSuccessAction).payload)
+            .setIsWatchingAll(WatchingRepositoriesStore.getState().repos.map(v => {return v.id}));
       case ActionTypes.search_error:
         return new SearchResultStoreState(undefined, (action as SearchErrorAction).payload);
+      case ActionTypes.get_watching_repositories:
+        return state.setIsWatchingAll(action.payload.map((v: any) => {return v.full_name}));
+      case ActionTypes.watch_repository:
+        return state.setWatching(action.payload.map((v: any) => {return v.id}), true);
+      case ActionTypes.unwatch_repository:
+        return state.setWatching(action.payload.map((v: any) => {return v.id}), false);
       default : return state;
     }
   }
-
 }
 
 const instance = new SearchResultStore(dispatcher);

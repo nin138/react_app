@@ -15,6 +15,7 @@ import WatchRepositoryErrorAction from "./watch_repository_error";
 import WatchRepositoryAction from "./watch_repository";
 import UnwatchRepositoryAction from "./unwatch_repository";
 import UnwatchRepositoryErrorAction from "./unwatch_repository_error";
+import Repository from "../model/repository";
 
 export interface Action {
   type: ActionTypes
@@ -57,15 +58,15 @@ const Actions = {
         err => dispatch(new GetWatchingErrorAction(err))
     )
   },
-  watchRepository: (owner: string, repo: string) => {
-    new GitHubApi.Repo.Watch().key(ApiKeyStore.getState().key).owner(owner).repo(repo).subscribe(
-        res => dispatch(new WatchRepositoryAction(res)),
+  watchRepository: (repo: Repository) => {
+    new GitHubApi.Repo.Watch().key(ApiKeyStore.getState().key).owner(repo.owner.login).repo(repo.name).subscribe(
+        res => dispatch(new WatchRepositoryAction([repo])),
         err => dispatch(new WatchRepositoryErrorAction(err))
     )
   },
-  unwatchRepository: (owner: string, repo: string) => {
-    new GitHubApi.Repo.Watch().key(ApiKeyStore.getState().key).owner(owner).repo(repo).unwatch(
-        res => dispatch(new UnwatchRepositoryAction(res)),
+  unwatchRepository: (repo: Repository) => {
+    new GitHubApi.Repo.Watch().key(ApiKeyStore.getState().key).owner(repo.owner.login).repo(repo.name).unwatch(
+        res => dispatch(new UnwatchRepositoryAction([repo])),
         err => dispatch(new UnwatchRepositoryErrorAction(err))
     )
   },

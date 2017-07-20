@@ -6,7 +6,7 @@ interface Props {
   repo: Repository
 }
 
-export default class RepositoryComponent extends React.Component<Props> {
+export default class WatchingRepositoryComponent extends React.Component<Props> {
   render() {
     const watchButton = this.props.repo.is_watching ?
         (<button onClick={() => Actions.unwatchRepository(this.props.repo)}>unwatch</button>) :

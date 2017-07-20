@@ -1,5 +1,24 @@
 import Owner from "./owner";
 export default class Repository {
+  static setIsWatchingAll(repos: Array<Repository> ,ids: Array<number>): Array<Repository> {
+    return repos.map((repo: Repository) => {
+      let f = false;
+      ids.forEach(id => {
+        if(repo.id == id) f = true
+      });
+      repo.is_watching = f;
+      return repo;
+    });
+  }
+  static setWatching(repos: Array<Repository> ,ids: Array<number>, value: boolean) {
+    return repos.map(repo => {
+      ids.forEach(id => {
+        if(repo.id == id) repo.is_watching = value;
+      });
+      return repo;
+    })
+  }
+
   id: number;
   name: string;
   full_name: string;
@@ -13,7 +32,7 @@ export default class Repository {
   stargazers_count: number;
   watchers_count: number;
   is_watching: boolean = false;
-  constructor(obj?: any) {
+  constructor(obj?: any, isWatching?: boolean) {
     if(obj) {
       this.id = obj.id;
       this.name = obj.name;
@@ -28,5 +47,6 @@ export default class Repository {
       this.stargazers_count = obj.stargazers_count;
       this.watchers_count = obj.watchers_count;
     }
+    if(isWatching) this.is_watching = true;
   }
 }
