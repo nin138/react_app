@@ -5,6 +5,7 @@ import {ActionTypes} from "../actions/action_types";
 import {Action} from "../actions/actions";
 import Repository from "../model/repository";
 import WatchRepositoryAction from "../actions/watch_repository";
+import UnwatchRepositoryAction from "../actions/unwatch_repository";
 
 
 
@@ -27,20 +28,18 @@ export class WatchingRepositoriesStore extends ReduceStore<WatchingRepositoriesS
         return new WatchingRepositoriesState(action.payload);
       case ActionTypes.get_watching_error:
         //todo err
-        console.log(action.payload);
         return new WatchingRepositoriesState();
       case ActionTypes.watch_repository:
         return new WatchingRepositoriesState((action as WatchRepositoryAction).payload.filter(v => {
-          let flag = false;
-          state.repos.forEach(old => { if(v.id == old.id) flag = true });
-          if(!flag) return v;
+          return (!state.repos.includes(v));
         }).concat(state.repos));
       case ActionTypes.watch_repository_error:
         //todo err
         return state;
       case ActionTypes.unwatch_repository:
-        //todo
-        return state;
+        return new WatchingRepositoriesState(state.repos.filter(v => {
+          return (!(action as UnwatchRepositoryAction).payload.includes(v))
+        }));
       case ActionTypes.unwatch_repository_error:
         //todo err
         return state;

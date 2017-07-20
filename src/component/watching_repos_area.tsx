@@ -8,7 +8,6 @@ interface Props {
 
 export default class WatchingReposAreaComponent extends React.Component<Props> {
   render() {
-    console.log(this.props.repos);
     const list = this.props.repos.map((r: Repository) => { return(<WatchingRepositoryComponent key={r.id} repo={r} />) });
     return(
         <div>
