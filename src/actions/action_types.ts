@@ -12,4 +12,6 @@ export enum ActionTypes {
   watch_repository_error,
   unwatch_repository,
   unwatch_repository_error,
+  get_search_next,
+  get_search_next_error,
 }

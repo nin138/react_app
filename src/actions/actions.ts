@@ -17,6 +17,8 @@ import UnwatchRepositoryAction from "./unwatch_repository";
 import UnwatchRepositoryErrorAction from "./unwatch_repository_error";
 import Repository from "../model/repository";
 import SearchResultStore from "../stores/search_result_store";
+import GetSearchNextAction from "./get_search_next";
+import GetSearchNextErrorAction from "./get_search_next_error";
 
 export interface Action {
   type: ActionTypes
@@ -55,8 +57,22 @@ const Actions = {
     );
   },
   getSearchRepositoriesNext: () => {
-    const ret = SearchResultStore.getState().response.nextUrl
-    console.log(ret)
+    if(!nextSearchingFlag) {
+      nextSearchingFlag = true;
+      console.log(SearchResultStore.getState().response.repositories.length);
+      const ret = SearchResultStore.getState().response.nextUrl;
+      if (ret) {
+        GitHubApi.Search.rawQuery(ret,
+            res => {
+              dispatch(new GetSearchNextAction(res));
+              nextSearchingFlag =false;
+            },
+            err => {
+              dispatch(new GetSearchNextErrorAction(err));
+              nextSearchingFlag = false;
+            });
+      }
+    }
   },
   getWatchingRepositories: () => {
     new GitHubApi.User.Watching().key(ApiKeyStore.getState().key).get(

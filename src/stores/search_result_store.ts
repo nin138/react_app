@@ -8,6 +8,7 @@ import SearchSuccessAction from "../actions/search_success";
 import SearchErrorAction from "../actions/search_error";
 import Repository from "../model/repository";
 import WatchingRepositoriesStore from "./watching_repositories_store";
+import GetSearchNextAction from "../actions/get_search_next";
 
 
 
@@ -17,7 +18,9 @@ export class SearchResultStoreState {
         new GitHubApi.SearchResponse(
             this.response.total_count,
             this.response.incomplete_results,
-            Repository.setIsWatchingAll(this.response.repositories, ids)),
+            Repository.setIsWatchingAll(this.response.repositories, ids),
+            this.response.nextUrl
+        ),
         this.errorCode
     )
   }
@@ -26,8 +29,10 @@ export class SearchResultStoreState {
         new GitHubApi.SearchResponse(
             this.response.total_count,
             this.response.incomplete_results,
-            Repository.setWatching(this.response.repositories, ids, value)
-        )
+            Repository.setWatching(this.response.repositories, ids, value),
+            this.response.nextUrl
+        ),
+        this.errorCode
     )
   }
   constructor(
@@ -52,6 +57,16 @@ export class SearchResultStore extends ReduceStore<SearchResultStoreState, Actio
             .setIsWatchingAll(WatchingRepositoriesStore.getState().repos.map(v => {return v.id}));
       case ActionTypes.search_error:
         return new SearchResultStoreState(undefined, (action as SearchErrorAction).payload);
+
+      case ActionTypes.get_search_next:
+        const ret = (action as GetSearchNextAction).payload;
+        ret.repositories = state.response.repositories.concat(
+            Repository.setWatching(action.payload.repositories,
+            WatchingRepositoriesStore.getState().repos.map(v => {return v.id}),true));
+        return new SearchResultStoreState(ret ,0);
+      case ActionTypes.get_search_next_error:
+        return state; //todo impl
+
       case ActionTypes.get_watching_repositories:
         return state.setIsWatchingAll(action.payload.map((v: any) => {return v.full_name}));
       case ActionTypes.watch_repository:
