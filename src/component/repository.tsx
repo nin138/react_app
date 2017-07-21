@@ -17,7 +17,7 @@ export default class RepositoryComponent extends React.Component<Props> {
     return (
         <div className="c-repository">
           <div className="c-repository__head">
-            <h2 className="c-repository__head__title">{this.props.repo.full_name}</h2>
+            <h2 className="c-repository__head__title"><a className="c-repository__head__title__a" target="blank" href={this.props.repo.html_url}>{this.props.repo.full_name}</a></h2>
             <p className="c-repository__star">️⭐{this.props.repo.stargazers_count}</p>
           </div>
           <p className="c-repository__updated">{"updated at " + this.props.repo.updated_at.substring(0, 10).replace(/-/g, '/')}</p>

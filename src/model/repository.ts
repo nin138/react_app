@@ -32,6 +32,7 @@ export default class Repository {
   stargazers_count: number;
   watchers_count: number;
   is_watching: boolean = false;
+  html_url: string;
   constructor(obj?: any, isWatching?: boolean) {
     if(obj) {
       this.id = obj.id;
@@ -46,6 +47,7 @@ export default class Repository {
       this.forks_count = obj.forks_count;
       this.stargazers_count = obj.stargazers_count;
       this.watchers_count = obj.watchers_count;
+      this.html_url = obj.html_url;
     }
     if(isWatching) this.is_watching = true;
   }
