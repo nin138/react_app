@@ -1,12 +1,12 @@
 import * as React from "react"
 import {Container, ReduceStore} from 'flux/utils'
-import ApiKeyStore from "../stores/api_key_store";
+import ApiKeyStore, {ApiKeyStoreState} from "../stores/api_key_store";
 import WatchingRepositoriesStore, {WatchingRepositoriesState} from "../stores/watching_repositories_store";
 import WatchingReposAreaComponent from "../component/watching_repos_area";
+import WatchContainerHeader from "../component/watch_container_header";
 
 interface State {
-  apiKey: string,
-  userName: string,
+  keys: ApiKeyStoreState
   watching: WatchingRepositoriesState
 }
 class Watch extends React.Component<{}, State> {
@@ -14,12 +14,12 @@ class Watch extends React.Component<{}, State> {
     return [ApiKeyStore, WatchingRepositoriesStore]
   }
   static calculateState(): State {
-    return { apiKey: ApiKeyStore.getState().key, userName: ApiKeyStore.getState().userName, watching: WatchingRepositoriesStore.getState() }
+    return { keys: ApiKeyStore.getState(), watching: WatchingRepositoriesStore.getState() }
   }
   render() {
     return(
         <section className="l-watch-container">
-          <h1 className="l-watch-container__h1">Watching Repositories</h1>
+          <WatchContainerHeader keys={this.state.keys} />
           <WatchingReposAreaComponent repos={this.state.watching.repos} />
         </section>
     )

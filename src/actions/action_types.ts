@@ -14,4 +14,6 @@ export enum ActionTypes {
   unwatch_repository_error,
   get_search_next,
   get_search_next_error,
+  set_api_key,
+  set_api_key_error,
 }

@@ -72,6 +72,15 @@ export module GitHubApi {
   }
 
   export module User {
+    export function info(key: string, success: (name: string) => void, error: (code: ErrorCodes) => void) {
+      new Http().url(`${BASE_URL}user?access_token=${key}`).get().then(
+          res => {
+            if (res.status >= 200 && res.status < 300) {
+              success(JSON.parse(res.body).login);
+            } else error(res.status);//TODO set error code
+          }
+      )
+    }
     export class Watching{
       private static readonly URL = BASE_URL + "user/";
       private key_: string;

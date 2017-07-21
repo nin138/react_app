@@ -21,7 +21,7 @@ class Search extends React.Component<{}, State> {
   componentDidMount() {
     const container = ReactDOM.findDOMNode(this.refs.container);
     container.addEventListener("scroll", () => {
-      if(container.scrollHeight - 1000 < container.scrollTop + container.clientHeight) {
+      if(container.scrollHeight - 1500 < container.scrollTop + container.clientHeight) {
         Actions.getSearchRepositoriesNext();
       }
     })

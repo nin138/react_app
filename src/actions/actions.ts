@@ -19,6 +19,8 @@ import Repository from "../model/repository";
 import SearchResultStore from "../stores/search_result_store";
 import GetSearchNextAction from "./get_search_next";
 import GetSearchNextErrorAction from "./get_search_next_error";
+import SetApiKeyAction from "./set_api_key";
+import SetApiKeyErrorAction from "./set_api_key_error";
 
 export interface Action {
   type: ActionTypes
@@ -91,5 +93,14 @@ const Actions = {
         err => dispatch(new UnwatchRepositoryErrorAction(err))
     )
   },
+  setApiKey: (key: string) => {
+    GitHubApi.User.info(key,
+        name => {
+          dispatch(new SetApiKeyAction({key: key, userName: name}));
+          Actions.getWatchingRepositories();
+        },
+        err => dispatch(new SetApiKeyErrorAction(err))
+    );
+  }
 };
 export default Actions
