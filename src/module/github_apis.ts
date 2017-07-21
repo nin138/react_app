@@ -12,8 +12,15 @@ export module GitHubApi {
   export class SearchResponse {
     constructor(public total_count: number = 0,
                 public incomplete_results: boolean = false,
-                public repositories: Array<Repository> = []) {
+                public repositories: Array<Repository> = [],
+                public nextUrl: string = "") {
     }
+  }
+  function getNextLink(header: any): string {
+    if(!header.link) return "";
+    const link = header.link.split(",").filter((v: string) => { return (v.slice(-5, -1) == "next") })[0];
+    if(!link) return "";
+    return link.slice(1,link.lastIndexOf('>'));
   }
   export class Search {
     private static readonly URL = BASE_URL + "search/repositories?";
@@ -31,22 +38,23 @@ export module GitHubApi {
 
     get(success: (v: SearchResponse) => void, error: (status: number) => void) {
       if (this.word_ || this.lang_) {
-        console.log(`${Search.URL}q=${this.getQuery()}`);
-        new Http().url(`${Search.URL}q=${this.getQuery()}`).get().then(
-            res => {
-              if (res.status >= 200 && res.status < 300) {
-                const r = JSON.parse(res.body);
-                const ret = new SearchResponse(r.total_count, r.incomplete_results, []);
-                r.items.forEach((i: any) => {
-                  ret.repositories.push(new Repository(i))
-                });
-                success(ret);
-              } else error(res.status);//TODO set error code
-            }
-        )
+        Search.rawQuery(`${Search.URL}q=${this.getQuery()}`, success, error);
       } else error(ErrorCodes.NO_QUERY);
     }
-
+    static rawQuery(url: string, success: (v: SearchResponse) => void, error: (status: number) => void) {
+      new Http().url(url).get().then(
+          res => {
+            if (res.status >= 200 && res.status < 300) {
+              const r = JSON.parse(res.body);
+              const ret = new SearchResponse(r.total_count, r.incomplete_results, [], getNextLink(res.headers));
+              r.items.forEach((i: any) => {
+                ret.repositories.push(new Repository(i))
+              });
+              success(ret);
+            } else error(res.status);//TODO set error code
+          }
+      )
+    }
     private getQuery(): string {
       let query = "";
       const word = `${this.word_.trim()} ${(this.lang_) ? "language:" + this.lang_.trim() : ""}`;

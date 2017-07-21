@@ -16,12 +16,13 @@ import WatchRepositoryAction from "./watch_repository";
 import UnwatchRepositoryAction from "./unwatch_repository";
 import UnwatchRepositoryErrorAction from "./unwatch_repository_error";
 import Repository from "../model/repository";
+import SearchResultStore from "../stores/search_result_store";
 
 export interface Action {
   type: ActionTypes
   payload: any
 }
-
+let nextSearchingFlag = false;
 const Actions = {
   changeSearchText: (text: string) => {
     dispatch(new ChangeSearchTextAction(text));
@@ -40,6 +41,7 @@ const Actions = {
     Actions.searchRepositories();
   },
   searchRepositories: () => {
+    nextSearchingFlag = false;
     const state = SearchTextStore.getState();
     new GitHubApi.Search()
         .word(state.text)
@@ -51,6 +53,10 @@ const Actions = {
           res => dispatch(new SearchSuccessAction(res)),
           err => dispatch(new SearchErrorAction(err))
     );
+  },
+  getSearchRepositoriesNext: () => {
+    const ret = SearchResultStore.getState().response.nextUrl
+    console.log(ret)
   },
   getWatchingRepositories: () => {
     new GitHubApi.User.Watching().key(ApiKeyStore.getState().key).get(
