@@ -31,4 +31,9 @@
       padding-bottom: .5rem;
     }
   }
+  &__body {
+    &__counter {
+      padding: 1rem 0 0;
+    }
+  }
 }

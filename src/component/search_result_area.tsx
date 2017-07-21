@@ -12,6 +12,7 @@ export default class SearchResultArea extends React.Component<Props> {
     const list = this.props.result.response.repositories.map((r: Repository) => { return(<RepositoryComponent key={r.id} repo={r} />) });
     return(
         <div className="l-search-container__body">
+          <p className="l-search-container__body__counter">{this.props.result.response.total_count} results</p>
           { list }
         </div>
     )

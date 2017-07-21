@@ -59,7 +59,6 @@ const Actions = {
   getSearchRepositoriesNext: () => {
     if(!nextSearchingFlag) {
       nextSearchingFlag = true;
-      console.log(SearchResultStore.getState().response.repositories.length);
       const ret = SearchResultStore.getState().response.nextUrl;
       if (ret) {
         GitHubApi.Search.rawQuery(ret,
