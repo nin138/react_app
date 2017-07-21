@@ -47,8 +47,8 @@ export default class SearchInputArea extends React.Component<Props> {
             <label className="c-search-input-area__label">
               <span>Order by:</span>
               <select onChange={(e) => this.handleOrderChange(e)}>
-                <option value={"true"}>降順</option>
-                <option value={"false"}>昇順</option>
+                <option value={"true"}>desc</option>
+                <option value={"false"}>asc</option>
               </select>
             </label>
           </div>
