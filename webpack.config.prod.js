@@ -3,7 +3,7 @@ const webpack = require('webpack');
 module.exports = {
   entry: "./src/index.tsx",
   output: {
-    filename: "./dist/js/bundle.js"
+    filename: "./docs/bundle.js"
   },
 
   resolve: {

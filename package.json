@@ -4,7 +4,9 @@
   "scripts": {
     "watch": "sass --style expanded --watch css:dist/css",
     "build": "webpack --colors --config ./webpack.config.dev.js",
-    "build:prod": "webpack --config ./webpack.config.prod.js"
+    "build:prod": "webpack --config ./webpack.config.prod.js",
+    "sass": "sass --sourcemap=none --style compressed css/style.scss:docs/style.css",
+    "docs": "npm run build:prod & npm run sass"
   },
   "devDependencies": {
     "@types/flux": "^3.1.1",
